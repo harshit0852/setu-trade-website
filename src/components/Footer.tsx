@@ -17,7 +17,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-brand-900/20 bg-brand-950 text-brand-100">
+    <footer id="contact" className="scroll-mt-24 border-t border-brand-900/20 bg-brand-950 text-brand-100">
       <div className="container-page py-14">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
