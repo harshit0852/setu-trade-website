@@ -1,5 +1,5 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowRight, Globe2, Leaf, ShieldCheck } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ArrowRight, Globe as Globe2, Leaf, ShieldCheck } from 'lucide-react';
 
 const HERO_IMAGE =
   'https://images.pexels.com/photos/2382904/pexels-photo-2382904.jpeg?auto=compress&cs=tinysrgb&h=650&w=940';
@@ -50,10 +50,10 @@ export function Hero() {
             millets and organic produce sourced from India.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row animate-fade-up" style={{ animationDelay: '0.24s' }}>
-            <button type="button" onClick={() => scrollTo('#request-quote')} className="btn-primary text-base">
+            <Link to="/request-quote" className="btn-primary text-base">
               Request a Quote
               <ArrowRight className="h-4 w-4" />
-            </button>
+            </Link>
             <button
               type="button"
               onClick={() => scrollTo('#products')}

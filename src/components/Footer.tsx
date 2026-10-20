@@ -1,21 +1,9 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Mail, MapPin, Phone, Sprout, ArrowRight } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { PRODUCT_CATEGORIES } from '@/data/site';
 
 export function Footer() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const goHome = (hash: string) => {
-    if (location.pathname !== '/') {
-      navigate(`/${hash}`);
-    } else {
-      const el = document.getElementById(hash.replace('#', ''));
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <footer id="contact" className="scroll-mt-24 border-t border-brand-900/20 bg-brand-950 text-brand-100">
       <div className="container-page py-14">
@@ -80,10 +68,10 @@ export function Footer() {
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>
-                <button type="button" onClick={() => goHome('#request-quote')} className="group inline-flex items-center gap-1.5 text-brand-200 hover:text-white">
+                <Link to="/request-quote" className="group inline-flex items-center gap-1.5 text-brand-200 hover:text-white">
                   Request a Quote
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                </button>
+                </Link>
               </li>
               <li>
                 <Link to="/suppliers" className="group inline-flex items-center gap-1.5 text-brand-200 hover:text-white">

@@ -5,6 +5,7 @@ import { ProductDetailPage } from '@/pages/ProductDetailPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { SuppliersPage } from '@/pages/SuppliersPage';
+import { RequestQuotePage } from '@/pages/RequestQuotePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/suppliers" element={<SuppliersPage />} />
+          <Route path="/request-quote" element={<RequestQuotePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
