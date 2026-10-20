@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /products/
+Allow: /about
+Allow: /contact
+Allow: /suppliers
+Allow: /request-quote
+
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/enquiries
+
+Sitemap: https://setutrade.com/sitemap.xml

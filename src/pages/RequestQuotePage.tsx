@@ -114,6 +114,7 @@ export function RequestQuotePage() {
     title: 'Request a Quote | Setu Trade',
     description:
       'Submit a detailed product enquiry to Setu Trade. Share your product, quantity, specification and destination requirements for a commercial response.',
+    path: '/request-quote',
   });
 
   const [searchParams] = useSearchParams();

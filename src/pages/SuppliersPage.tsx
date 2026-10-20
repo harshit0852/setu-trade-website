@@ -71,6 +71,7 @@ export function SuppliersPage() {
     title: 'Become a Supplier | Setu Trade',
     description:
       'Join the Setu Trade sourcing network. Farmers, FPOs, traders, processors and suppliers of Indian agricultural products can submit a supplier enquiry.',
+    path: '/suppliers',
   });
 
   return (

@@ -7,7 +7,7 @@ import { ProductCard } from '@/components/ProductCard';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { getProductDetail, getRelatedProducts } from '@/data/productDetails';
 import type { ProductDetail } from '@/types';
-import { useSeo } from '@/hooks/useSeo';
+import { useSeo, SITE_URL, type JsonLdSchema } from '@/hooks/useSeo';
 import { trackEvent } from '@/lib/tracking';
 
 export function ProductDetailPage() {
@@ -22,7 +22,37 @@ export function ProductDetailPage() {
 }
 
 function ProductDetailContent({ product }: { product: ProductDetail }) {
-  useSeo({ title: product.seoTitle, description: product.seoDescription });
+  const path = `/products/${product.slug}`;
+  const productUrl = `${SITE_URL}${path}`;
+
+  const jsonLd: JsonLdSchema[] = [
+    {
+      '@type': 'Product',
+      name: `Indian ${product.name}`,
+      description: product.seoDescription,
+      image: product.image,
+      category: product.category,
+      brand: { '@type': 'Brand', name: 'Setu Trade' },
+      url: productUrl,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Products', item: `${SITE_URL}/products` },
+        { '@type': 'ListItem', position: 3, name: product.category, item: `${SITE_URL}/products?category=${product.categorySlug}` },
+        { '@type': 'ListItem', position: 4, name: product.name, item: productUrl },
+      ],
+    },
+  ];
+
+  useSeo({
+    title: product.seoTitle,
+    description: product.seoDescription,
+    path,
+    image: product.image,
+    jsonLd,
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);

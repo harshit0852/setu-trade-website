@@ -10,6 +10,7 @@ import { TargetMarkets } from '@/components/sections/TargetMarkets';
 import { ExportProcess } from '@/components/sections/ExportProcess';
 import { About } from '@/components/sections/About';
 import { CallToAction } from '@/components/sections/CallToAction';
+import { useSeo } from '@/hooks/useSeo';
 
 function useScrollToHash() {
   const { hash } = useLocation();
@@ -29,6 +30,12 @@ function useScrollToHash() {
 
 export function HomePage() {
   useScrollToHash();
+  useSeo({
+    title: 'Setu Trade | Indian Agro Products & Global Trade',
+    description:
+      'Setu Trade is an India-based agro products trading business connecting international buyers with fresh vegetables, grains, millets, spices, dry fruits, nuts and organic products sourced from India.',
+    path: '/',
+  });
   return (
     <>
       <Header />

@@ -6,7 +6,7 @@ import { useAdminAuth } from '@/lib/adminAuthContext';
 import { useSeo } from '@/hooks/useSeo';
 
 export function AdminLayout() {
-  useSeo({ title: 'Admin Dashboard | Setu Trade', description: 'Setu Trade admin portal.' });
+  useSeo({ title: 'Admin Dashboard | Setu Trade', description: 'Setu Trade admin portal.', noindex: true });
 
   const { user, loading, signOut } = useAdminAuth();
   const navigate = useNavigate();

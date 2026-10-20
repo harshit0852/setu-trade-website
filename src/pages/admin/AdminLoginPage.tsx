@@ -6,7 +6,7 @@ import { useAdminAuth } from '@/lib/adminAuthContext';
 import { useSeo } from '@/hooks/useSeo';
 
 export function AdminLoginPage() {
-  useSeo({ title: 'Admin Login | Setu Trade', description: 'Setu Trade admin portal.' });
+  useSeo({ title: 'Admin Login | Setu Trade', description: 'Setu Trade admin portal.', noindex: true });
 
   const { signIn } = useAdminAuth();
   const navigate = useNavigate();

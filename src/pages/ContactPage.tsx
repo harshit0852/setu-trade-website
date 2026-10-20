@@ -45,7 +45,8 @@ export function ContactPage() {
   useSeo({
     title: 'Contact Setu Trade | Indian Agro Products',
     description:
-      'For product enquiries, sourcing requirements and business discussions, contact Setu Trade.',
+      'Contact Setu Trade for product enquiries, sourcing requirements and business discussions. Request a quote or connect via WhatsApp.',
+    path: '/contact',
   });
 
   return (

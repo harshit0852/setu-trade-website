@@ -41,9 +41,10 @@ function buildCatalog(): CatalogEntry[] {
 
 export function ProductsPage() {
   useSeo({
-    title: 'Explore Our Products | Setu Trade',
+    title: 'Products | Indian Agro Products Catalogue | Setu Trade',
     description:
-      'Explore agricultural products sourced from India for international buyers and business requirements.',
+      'Explore Indian agricultural products available for international buyers — fresh vegetables, grains, millets, spices, dry fruits, nuts and organic products sourced from India.',
+    path: '/products',
   });
 
   const [searchParams, setSearchParams] = useSearchParams();
