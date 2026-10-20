@@ -2,7 +2,7 @@ import { PRODUCT_CATEGORIES } from '@/data/site';
 import { ProductCard } from '@/components/ProductCard';
 import type { ProductItem } from '@/types';
 
-const FEATURED_SLUGS = ['potato', 'wheat', 'bajra', 'jowar', 'mustard', 'paddy-rice'];
+const FEATURED_SLUGS = ['potato', 'paddy-rice', 'turmeric', 'cashew-nuts', 'raisins', 'bajra'];
 
 function findFeatured(): { item: ProductItem; categoryName: string }[] {
   const found: { item: ProductItem; categoryName: string }[] = [];
