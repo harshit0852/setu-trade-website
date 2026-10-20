@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { PRODUCT_CATEGORIES } from '@/data/site';
 import { useSeo } from '@/hooks/useSeo';
 
@@ -105,6 +106,7 @@ export function SuppliersPage() {
                   Submit Supplier Enquiry
                   <ArrowRight className="h-4 w-4" />
                 </Link>
+                <WhatsAppButton context="supplier" source="supplier_hero" variant="dark" />
                 <Link
                   to="/products"
                   className="btn border border-brand-700 bg-brand-900/40 px-5 py-3 text-base text-white hover:bg-brand-800/60"
@@ -285,6 +287,7 @@ export function SuppliersPage() {
                   Submit Supplier Enquiry
                   <ArrowRight className="h-4 w-4" />
                 </Link>
+                <WhatsAppButton context="supplier" source="supplier_cta" />
                 <Link to="/contact" className="btn-secondary text-base">
                   Contact Setu Trade
                 </Link>

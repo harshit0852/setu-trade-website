@@ -4,9 +4,11 @@ import { ArrowLeft, ArrowRight, ChevronRight, CircleCheck as CheckCircle2, FileT
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { getProductDetail, getRelatedProducts } from '@/data/productDetails';
 import type { ProductDetail } from '@/types';
 import { useSeo } from '@/hooks/useSeo';
+import { trackEvent } from '@/lib/tracking';
 
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -84,10 +86,11 @@ function ProductDetailContent({ product }: { product: ProductDetail }) {
                   {product.description}
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link to={`/request-quote?product=${product.slug}`} className="btn-primary text-base">
+                  <Link to={`/request-quote?product=${product.slug}`} className="btn-primary text-base" onClick={() => trackEvent('product_enquiry_click', { source: 'product_detail', product: product.name })}>
                     Request a Quote
                     <ArrowRight className="h-4 w-4" />
                   </Link>
+                  <WhatsAppButton context="product" productName={product.name} source="product_detail" />
                   <Link to="/products" className="btn-secondary text-base">
                     <ArrowLeft className="h-4 w-4" />
                     Back to Products
@@ -280,10 +283,11 @@ function ProductDetailContent({ product }: { product: ProductDetail }) {
                 your requirement and discuss the applicable commercial terms.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Link to={`/request-quote?product=${product.slug}`} className="btn-primary text-base">
+                <Link to={`/request-quote?product=${product.slug}`} className="btn-primary text-base" onClick={() => trackEvent('product_enquiry_click', { source: 'product_cta', product: product.name })}>
                   Request a Quote
                   <ArrowRight className="h-4 w-4" />
                 </Link>
+                <WhatsAppButton context="product" productName={product.name} source="product_cta" variant="dark" />
                 <Link
                   to="/contact"
                   className="btn border border-brand-700 bg-brand-900/40 px-5 py-3 text-base text-white hover:bg-brand-800/60"

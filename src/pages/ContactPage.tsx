@@ -6,28 +6,38 @@ import {
   Sprout,
   Leaf,
   Mail,
-  MapPin,
-  Phone,
+  FileText,
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { useSeo } from '@/hooks/useSeo';
+import { trackEvent } from '@/lib/tracking';
 
 const CONTACT_CARDS = [
   {
-    icon: Briefcase,
-    title: 'Business Enquiries',
-    text: 'Contact us regarding agricultural products, sourcing requirements and international business enquiries.',
+    icon: FileText,
+    title: 'Request a Quote',
+    text: 'Submit a detailed product enquiry with your product, quantity, specification and destination requirements.',
+    actionLabel: 'Submit RFQ',
+    actionLink: '/request-quote',
+    trackSource: 'contact_rfq',
   },
   {
     icon: PackageSearch,
     title: 'Product Enquiries',
     text: 'Share the product, quantity, specification and destination you are interested in discussing.',
+    actionLabel: 'Browse Products',
+    actionLink: '/products',
+    trackSource: 'contact_products',
   },
   {
     icon: Sprout,
     title: 'Supplier Enquiries',
     text: 'Farmers, FPOs, traders and suppliers can contact Setu Trade regarding potential sourcing opportunities.',
+    actionLabel: 'Become a Supplier',
+    actionLink: '/suppliers',
+    trackSource: 'contact_supplier',
   },
 ];
 
@@ -66,7 +76,7 @@ export function ContactPage() {
               {CONTACT_CARDS.map((card, i) => (
                 <div
                   key={card.title}
-                  className="card p-7 hover:shadow-card-hover animate-fade-up"
+                  className="card flex flex-col p-7 hover:shadow-card-hover animate-fade-up"
                   style={{ animationDelay: `${i * 0.08}s` }}
                 >
                   <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
@@ -75,35 +85,74 @@ export function ContactPage() {
                   <h2 className="mt-5 text-lg font-semibold text-charcoal-900">
                     {card.title}
                   </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-charcoal-600">
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-600">
                     {card.text}
                   </p>
+                  <Link
+                    to={card.actionLink}
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800"
+                    onClick={() => trackEvent(card.title === 'Request a Quote' ? 'request_quote_click' : 'product_enquiry_click', { source: card.trackSource })}
+                  >
+                    {card.actionLabel}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Contact details placeholders */}
+        {/* Communication channels */}
         <section className="bg-charcoal-50 py-14">
           <div className="container-page">
             <div className="max-w-2xl">
               <p className="eyebrow">
                 <span className="h-px w-8 bg-brand-500" />
-                Contact Details
+                Communication Channels
               </p>
               <h2 className="mt-4 text-2xl font-bold text-charcoal-900">
-                Reach Setu Trade
+                Ways to Reach Setu Trade
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-charcoal-600">
-                Contact details will be shared here once configured. In the meantime,
-                please use the enquiry channels above.
+                Choose the channel that suits you best. Request a Quote is the most detailed option for product enquiries.
               </p>
             </div>
-            <div className="mt-8 grid gap-5 sm:grid-cols-3">
-              <ContactPlaceholder icon={Mail} label="Email" />
-              <ContactPlaceholder icon={Phone} label="Phone" />
-              <ContactPlaceholder icon={MapPin} label="Location" />
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="card flex flex-col p-7">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                  <FileText className="h-6 w-6" strokeWidth={1.9} />
+                </span>
+                <h3 className="mt-5 text-lg font-semibold text-charcoal-900">Request a Quote</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-600">
+                  Submit a structured enquiry with product, quantity, specification and destination details.
+                </p>
+                <Link to="/request-quote" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800" onClick={() => trackEvent('request_quote_click', { source: 'contact_channels' })}>
+                  Submit RFQ
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+              <div className="card flex flex-col p-7">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366]/10 text-[#1da851]">
+                  <Briefcase className="h-6 w-6" strokeWidth={1.9} />
+                </span>
+                <h3 className="mt-5 text-lg font-semibold text-charcoal-900">WhatsApp</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-600">
+                  Chat with Setu Trade on WhatsApp for quick product and sourcing enquiries.
+                </p>
+                <div className="mt-4">
+                  <WhatsAppButton context="general" source="contact_channels" />
+                </div>
+              </div>
+              <div className="card flex flex-col p-7">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-charcoal-50 text-charcoal-400">
+                  <Mail className="h-6 w-6" strokeWidth={1.9} />
+                </span>
+                <h3 className="mt-5 text-lg font-semibold text-charcoal-900">Email</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-600">
+                  Email address will be shared here once configured.
+                </p>
+                <p className="mt-4 text-sm text-charcoal-400">Available on request</p>
+              </div>
             </div>
           </div>
         </section>
@@ -123,10 +172,11 @@ export function ContactPage() {
                 specification and destination.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Link to="/products" className="btn-primary text-base">
-                  Explore Products
+                <Link to="/request-quote" className="btn-primary text-base" onClick={() => trackEvent('request_quote_click', { source: 'contact_cta' })}>
+                  Request a Quote
                   <ArrowRight className="h-4 w-4" />
                 </Link>
+                <WhatsAppButton context="general" source="contact_cta" variant="dark" />
                 <Link
                   to="/suppliers"
                   className="btn border border-brand-700 bg-brand-900/40 px-5 py-3 text-base text-white hover:bg-brand-800/60"
@@ -140,27 +190,5 @@ export function ContactPage() {
       </div>
       <Footer />
     </>
-  );
-}
-
-function ContactPlaceholder({
-  icon: Icon,
-  label,
-}: {
-  icon: typeof Mail;
-  label: string;
-}) {
-  return (
-    <div className="card p-6">
-      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-charcoal-50 text-charcoal-400">
-        <Icon className="h-5 w-5" strokeWidth={1.8} />
-      </span>
-      <h3 className="mt-4 text-sm font-semibold uppercase tracking-[0.14em] text-charcoal-400">
-        {label}
-      </h3>
-      <p className="mt-2 text-sm text-charcoal-500">
-        Available on request
-      </p>
-    </div>
   );
 }

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, FileText, Handshake } from 'lucide-react';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
+import { trackEvent } from '@/lib/tracking';
 
 export function CallToAction() {
   return (
@@ -32,13 +34,16 @@ function BuyerCTA() {
         </p>
       </div>
       <div className="mt-7 flex w-full flex-col gap-3 sm:flex-row lg:mt-0 lg:w-auto lg:flex-col lg:items-end">
-        <Link to="/request-quote" className="btn-primary text-base">
+        <Link to="/request-quote" className="btn-primary text-base" onClick={() => trackEvent('request_quote_click', { source: 'homepage_cta' })}>
           Request a Quote
           <ArrowRight className="h-4 w-4" />
         </Link>
-        <Link to="/contact" className="btn-secondary text-base">
-          Contact Us
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+          <Link to="/contact" className="btn-secondary text-base">
+            Contact Us
+          </Link>
+          <WhatsAppButton context="general" source="homepage_cta" />
+        </div>
       </div>
     </div>
   );
@@ -63,11 +68,12 @@ function SupplierCTA() {
           for potential sourcing opportunities.
         </p>
       </div>
-      <div className="mt-7 lg:mt-0">
+      <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:mt-0">
         <Link to="/suppliers" className="btn-primary text-base">
           Become a Supplier
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </Link>
+        <WhatsAppButton context="supplier" source="supplier_cta" />
       </div>
     </div>
   );

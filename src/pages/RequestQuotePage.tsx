@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, CircleCheck, FileText, Globe as Globe2, Package, Ship, ShieldCheck, Info, User, Building2, Mail, Phone, MapPin, Scale, Calendar, PackageCheck, ClipboardList, MessageSquare, Tag, Layers, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CircleCheck, FileText, Globe as Globe2, Package, Ship, ShieldCheck, Info, User, Building2, Mail, Phone, MapPin, Scale, Calendar, PackageCheck, ClipboardList, MessageSquare, Tag, Layers, Loader2, AlertCircle, Home } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { PRODUCT_CATEGORIES } from '@/data/site';
 import { useSeo } from '@/hooks/useSeo';
 import { submitEnquiry, type EnquiryInput } from '@/lib/enquiries';
@@ -904,9 +905,10 @@ function SuccessState({
               <FileText className="h-4 w-4" />
               Submit Another Enquiry
             </button>
-            <Link to="/products" className="btn-secondary text-base">
-              Browse Products
-              <ArrowRight className="h-4 w-4" />
+            <WhatsAppButton context="rfq_success" productName={product} source="rfq_success" />
+            <Link to="/" className="btn-secondary text-base">
+              <Home className="h-4 w-4" />
+              Back to Website
             </Link>
           </div>
 
