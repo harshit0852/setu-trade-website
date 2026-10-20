@@ -23,6 +23,9 @@ export interface AdminEnquiry {
   payment_terms: string | null;
   status: string;
   admin_notes: string | null;
+  buyer_email_sent: boolean;
+  admin_email_sent: boolean;
+  email_notification_error: string | null;
 }
 
 export const ENQUIRY_STATUSES = [

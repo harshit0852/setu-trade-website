@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
-  ArrowLeft, Loader2, AlertCircle, Save, CircleCheck, User, Package, Tag, FileText,
+  ArrowLeft, Loader2, AlertCircle, Save, CircleCheck, User, Package, Tag, FileText, Mail,
 } from 'lucide-react';
 import {
   fetchEnquiry,
@@ -297,6 +297,57 @@ export function AdminEnquiryDetailPage() {
           <DetailRow label="Created" value={formatDateTime(enquiry.created_at)} />
           <DetailRow label="Current Status" value={STATUS_LABELS[enquiry.status] ?? enquiry.status} />
         </dl>
+      </section>
+
+      {/* Email notification status */}
+      <section className="card overflow-hidden">
+        <div className="flex items-center gap-4 border-b border-charcoal-100 bg-charcoal-50/50 p-5 sm:p-6">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-700 text-white">
+            <Mail className="h-5 w-5" strokeWidth={1.9} />
+          </span>
+          <div>
+            <h2 className="text-lg font-bold text-charcoal-900">Email Notifications</h2>
+            <p className="mt-0.5 text-xs text-charcoal-500">Delivery status for this enquiry.</p>
+          </div>
+        </div>
+        <div className="p-5 sm:p-6">
+          <dl className="grid gap-x-6 sm:grid-cols-2">
+            <div className="py-2.5">
+              <dt className="text-xs font-medium uppercase tracking-wide text-charcoal-400">Buyer Confirmation Email</dt>
+              <dd className="mt-0.5">
+                {enquiry.buyer_email_sent ? (
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700">
+                    <CircleCheck className="h-4 w-4" /> Sent
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-charcoal-500">
+                    <AlertCircle className="h-4 w-4" /> Not sent
+                  </span>
+                )}
+              </dd>
+            </div>
+            <div className="py-2.5">
+              <dt className="text-xs font-medium uppercase tracking-wide text-charcoal-400">Admin Notification Email</dt>
+              <dd className="mt-0.5">
+                {enquiry.admin_email_sent ? (
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700">
+                    <CircleCheck className="h-4 w-4" /> Sent
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-charcoal-500">
+                    <AlertCircle className="h-4 w-4" /> Not sent
+                  </span>
+                )}
+              </dd>
+            </div>
+          </dl>
+          {enquiry.email_notification_error && (
+            <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4">
+              <p className="text-xs font-semibold text-amber-800">Email Delivery Error</p>
+              <p className="mt-1 text-xs text-amber-700">{enquiry.email_notification_error}</p>
+            </div>
+          )}
+        </div>
       </section>
     </div>
   );

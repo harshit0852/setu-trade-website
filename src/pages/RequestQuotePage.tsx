@@ -128,6 +128,8 @@ export function RequestQuotePage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
+  const [buyerEmail, setBuyerEmail] = useState('');
   const [touched, setTouched] = useState<Partial<Record<keyof RfqFormState, boolean>>>({});
 
   const validProductSlugs = useMemo(
@@ -200,7 +202,9 @@ export function RequestQuotePage() {
     };
 
     try {
-      await submitEnquiry(payload);
+      const result = await submitEnquiry(payload);
+      setConfirmationEmailSent(result.buyerEmailSent);
+      setBuyerEmail(result.enquiry.email);
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -220,6 +224,8 @@ export function RequestQuotePage() {
     setTouched({});
     setSubmitted(false);
     setSubmitError(null);
+    setConfirmationEmailSent(false);
+    setBuyerEmail('');
   };
 
   return (
@@ -227,7 +233,12 @@ export function RequestQuotePage() {
       <Header />
       <div className="pt-[4.5rem]">
         {submitted ? (
-          <SuccessState onReset={resetForm} product={prefilledProductName} />
+          <SuccessState
+            onReset={resetForm}
+            product={prefilledProductName}
+            confirmationEmailSent={confirmationEmailSent}
+            buyerEmail={buyerEmail}
+          />
         ) : (
           <>
             <RfqIntro product={prefilledProductName} />
@@ -852,9 +863,13 @@ function SelectField({
 function SuccessState({
   onReset,
   product,
+  confirmationEmailSent,
+  buyerEmail,
 }: {
   onReset: () => void;
   product: string | null;
+  confirmationEmailSent: boolean;
+  buyerEmail: string;
 }) {
   return (
     <section className="bg-charcoal-50">
@@ -870,6 +885,12 @@ function SuccessState({
             Your enquiry has been recorded. Our team will review your requirements
             and respond regarding availability, specifications and commercial terms.
           </p>
+
+          {confirmationEmailSent && buyerEmail && (
+            <p className="mt-3 text-sm text-charcoal-500 animate-fade-up" style={{ animationDelay: '0.18s' }}>
+              A confirmation email has been sent to {buyerEmail}.
+            </p>
+          )}
 
           {product && (
             <div className="mt-6 inline-flex items-center gap-2 rounded-xl border border-charcoal-100 bg-white px-4 py-2.5 text-sm text-charcoal-700 animate-fade-up" style={{ animationDelay: '0.2s' }}>
