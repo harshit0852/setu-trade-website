@@ -26,7 +26,7 @@ export function NotFoundPage() {
               Back to Home
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link to="/#products" className="btn-secondary">
+            <Link to="/products" className="btn-secondary">
               Browse Products
             </Link>
           </div>

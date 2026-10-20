@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { PRODUCT_CATEGORIES, productRoute } from '@/data/site';
 import type { ProductCategory } from '@/types';
@@ -24,23 +24,23 @@ export function ProductCategories() {
             <CategoryCard key={cat.slug} category={cat} index={i} />
           ))}
         </div>
+
+        <div className="mt-10 text-center">
+          <Link to="/products" className="btn-secondary">
+            Browse All Products
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
     </section>
   );
 }
 
 function CategoryCard({ category, index }: { category: ProductCategory; index: number }) {
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const scrollToCategory = () => {
-    const hash = `#products-${category.slug}`;
-    if (location.pathname !== '/') {
-      navigate(`/${hash}`);
-    } else {
-      const el = document.getElementById(`products-${category.slug}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
+  const viewCategory = () => {
+    navigate(`/products?category=${category.slug}`);
   };
 
   return (
@@ -85,7 +85,7 @@ function CategoryCard({ category, index }: { category: ProductCategory; index: n
         <div className="mt-6">
           <button
             type="button"
-            onClick={scrollToCategory}
+            onClick={viewCategory}
             className="btn-secondary w-full px-4 py-2.5 text-sm"
           >
             View Products

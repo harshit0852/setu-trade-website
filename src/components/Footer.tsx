@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Mail, MapPin, Phone, Sprout, ArrowRight } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { PRODUCT_CATEGORIES } from '@/data/site';
@@ -51,13 +51,12 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm">
               {PRODUCT_CATEGORIES.map((cat) => (
                 <li key={cat.slug}>
-                  <button
-                    type="button"
-                    onClick={() => goHome(`#products-${cat.slug}`)}
+                  <Link
+                    to={`/products?category=${cat.slug}`}
                     className="text-brand-200 transition-colors hover:text-white"
                   >
                     {cat.name}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

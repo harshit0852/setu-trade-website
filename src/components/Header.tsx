@@ -116,16 +116,15 @@ function MegaMenuLink({
 }) {
   return (
     <div className="relative" onMouseEnter={onEnter} onMouseLeave={onLeave}>
-      <button
-        type="button"
-        onClick={() => onNavigate(link.href)}
+      <Link
+        to="/products"
         className={`flex items-center gap-1 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
           open ? 'bg-brand-50 text-brand-800' : 'text-charcoal-700 hover:bg-brand-50 hover:text-brand-800'
         }`}
       >
         {link.label}
         <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-      </button>
+      </Link>
 
       {open && (
         <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3">
@@ -133,15 +132,14 @@ function MegaMenuLink({
             <div className="grid grid-cols-2 gap-x-8 gap-y-6 p-7 lg:grid-cols-4">
               {PRODUCT_CATEGORIES.map((cat) => (
                 <div key={cat.slug} className="min-w-0">
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(`#products-${cat.slug}`)}
+                  <Link
+                    to={`/products?category=${cat.slug}`}
                     className="group/cat block w-full border-b border-charcoal-100 pb-2 text-left"
                   >
                     <span className="text-sm font-bold text-charcoal-900 transition-colors group-hover/cat:text-brand-700">
                       {cat.name}
                     </span>
-                  </button>
+                  </Link>
                   <ul className="mt-3 space-y-1.5">
                     {cat.items.map((item) => (
                       <li key={item.id}>
@@ -203,13 +201,13 @@ function MobileMenu({
               link.hasMegaMenu ? (
                 <li key={link.href} className="border-b border-charcoal-50">
                   <div className="flex items-center">
-                    <button
-                      type="button"
-                      onClick={() => onNavigate(link.href)}
+                    <Link
+                      to="/products"
+                      onClick={onClose}
                       className="flex-1 py-3.5 text-left text-base font-semibold text-charcoal-900"
                     >
                       {link.label}
-                    </button>
+                    </Link>
                     <button
                       type="button"
                       aria-label={`Expand ${link.label}`}
@@ -228,13 +226,13 @@ function MobileMenu({
                     <div className="space-y-4 pb-4 pl-3">
                       {PRODUCT_CATEGORIES.map((cat) => (
                         <div key={cat.slug}>
-                          <button
-                            type="button"
-                            onClick={() => onNavigate(`#products-${cat.slug}`)}
+                          <Link
+                            to={`/products?category=${cat.slug}`}
+                            onClick={onClose}
                             className="text-sm font-semibold text-brand-700"
                           >
                             {cat.name}
-                          </button>
+                          </Link>
                           <ul className="mt-1.5 space-y-1.5 pl-3">
                             {cat.items.map((item) => (
                               <li key={item.id}>

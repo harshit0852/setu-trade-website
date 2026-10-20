@@ -1,16 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import {
-  ArrowRight,
-  ChevronRight,
-  FileText,
-  Mail,
-  Package,
-  PackageCheck,
-  ScanSearch,
-  Ship,
-  CheckCircle2,
-} from 'lucide-react';
+import { ArrowRight, ChevronRight, FileText, Mail, Package, PackageCheck, ScanSearch, Ship, CircleCheck as CheckCircle2 } from 'lucide-react';
 import { getProductDetail, getRelatedProducts } from '@/data/productDetails';
 import { productRoute } from '@/data/site';
 import type { ProductDetail } from '@/types';
@@ -63,9 +53,9 @@ function ProductDetailContent({ product }: { product: ProductDetail }) {
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-charcoal-500">
             <Link to="/" className="hover:text-brand-700">Home</Link>
             <ChevronRight className="h-3.5 w-3.5 text-charcoal-300" />
-            <Link to="/#products" className="hover:text-brand-700">Products</Link>
+            <Link to="/products" className="hover:text-brand-700">Products</Link>
             <ChevronRight className="h-3.5 w-3.5 text-charcoal-300" />
-            <Link to={`/#products-${product.categorySlug}`} className="hover:text-brand-700">
+            <Link to={`/products?category=${product.categorySlug}`} className="hover:text-brand-700">
               {product.category}
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-charcoal-300" />
@@ -333,7 +323,7 @@ function ProductNotFound() {
           The product you are looking for may not be available or the link may be incorrect.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link to="/#products" className="btn-primary">
+          <Link to="/products" className="btn-primary">
             Browse All Products
             <ArrowRight className="h-4 w-4" />
           </Link>
