@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, CircleCheck, FileText, Globe as Globe2, Package, Ship, ShieldCheck, Info, User, Building2, Mail, Phone, MapPin, Scale, Calendar, PackageCheck, ClipboardList, MessageSquare, Tag, Layers } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CircleCheck, FileText, Globe as Globe2, Package, Ship, ShieldCheck, Info, User, Building2, Mail, Phone, MapPin, Scale, Calendar, PackageCheck, ClipboardList, MessageSquare, Tag, Layers, Loader2, AlertCircle } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PRODUCT_CATEGORIES } from '@/data/site';
 import { useSeo } from '@/hooks/useSeo';
+import { submitEnquiry, type EnquiryInput } from '@/lib/enquiries';
 
 const BUYER_TYPES = [
   'Importer',
@@ -125,6 +126,8 @@ export function RequestQuotePage() {
   });
   const [errors, setErrors] = useState<Partial<Record<keyof RfqFormState, string>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [touched, setTouched] = useState<Partial<Record<keyof RfqFormState, boolean>>>({});
 
   const validProductSlugs = useMemo(
@@ -152,24 +155,62 @@ export function RequestQuotePage() {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
+
     const validationErrors = validate(form);
     setErrors(validationErrors);
     setTouched(Object.fromEntries(REQUIRED_FIELDS.map((f) => [f, true])) as Partial<
       Record<keyof RfqFormState, boolean>
     >);
 
-    if (Object.keys(validationErrors).length === 0) {
-      setSubmitted(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
+    if (Object.keys(validationErrors).length > 0) {
       const firstErrorField = REQUIRED_FIELDS.find((f) => validationErrors[f]);
       if (firstErrorField) {
         const el = document.getElementById(`field-${firstErrorField}`);
         el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         (el as HTMLElement | null)?.focus?.();
       }
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    const payload: EnquiryInput = {
+      full_name: form.fullName.trim(),
+      company: form.company.trim(),
+      country: form.country.trim(),
+      city: form.city.trim() || null,
+      email: form.email.trim(),
+      phone_whatsapp: form.phone.trim(),
+      buyer_type: form.buyerType,
+      product: form.product,
+      variety_grade: form.variety.trim() || null,
+      quantity: form.quantity ? Number(form.quantity) : null,
+      unit: form.unit || null,
+      packaging: form.packaging.trim() || null,
+      destination: form.destinationCountry.trim(),
+      delivery_date: form.deliveryDate || null,
+      specifications: form.specifications.trim() || null,
+      additional_message: form.message.trim() || null,
+      incoterm: form.incoterm || null,
+      payment_terms: form.paymentTerms || null,
+    };
+
+    try {
+      await submitEnquiry(payload);
+      setSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong while submitting your enquiry. Please try again.',
+      );
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -178,6 +219,7 @@ export function RequestQuotePage() {
     setErrors({});
     setTouched({});
     setSubmitted(false);
+    setSubmitError(null);
   };
 
   return (
@@ -193,6 +235,8 @@ export function RequestQuotePage() {
               form={form}
               errors={errors}
               touched={touched}
+              submitting={submitting}
+              submitError={submitError}
               onUpdate={update}
               onTouched={markTouched}
               onSubmit={handleSubmit}
@@ -257,6 +301,8 @@ function RfqForm({
   form,
   errors,
   touched,
+  submitting,
+  submitError,
   onUpdate,
   onTouched,
   onSubmit,
@@ -264,6 +310,8 @@ function RfqForm({
   form: RfqFormState;
   errors: Partial<Record<keyof RfqFormState, string>>;
   touched: Partial<Record<keyof RfqFormState, boolean>>;
+  submitting: boolean;
+  submitError: string | null;
   onUpdate: (field: keyof RfqFormState, value: string) => void;
   onTouched: (field: keyof RfqFormState) => void;
   onSubmit: (e: React.FormEvent) => void;
@@ -520,20 +568,40 @@ function RfqForm({
           </div>
         </FormSection>
 
+        {/* Submit error */}
+        {submitError && (
+          <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" strokeWidth={1.9} />
+            <div>
+              <p className="text-sm font-semibold text-red-800">Could not submit your enquiry.</p>
+              <p className="mt-1 text-sm text-red-700">{submitError}</p>
+            </div>
+          </div>
+        )}
+
         {/* Submit */}
         <div className="flex flex-col items-center gap-4 pt-2 sm:flex-row sm:justify-between">
           <p className="text-sm text-charcoal-500">
             Fields marked with <span className="font-semibold text-charcoal-700">*</span> are required.
           </p>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Link to="/products" className="btn-secondary justify-center">
+            <Link to="/products" className={`btn-secondary justify-center ${submitting ? 'pointer-events-none opacity-50' : ''}`}>
               <ArrowLeft className="h-4 w-4" />
               Back to Products
             </Link>
-            <button type="submit" className="btn-primary text-base">
-              <FileText className="h-4 w-4" />
-              Submit Enquiry
-              <ArrowRight className="h-4 w-4" />
+            <button type="submit" disabled={submitting} className="btn-primary text-base disabled:cursor-not-allowed disabled:opacity-60">
+              {submitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Submitting…
+                </>
+              ) : (
+                <>
+                  <FileText className="h-4 w-4" />
+                  Submit Enquiry
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -799,8 +867,8 @@ function SuccessState({
             Thank you for your enquiry.
           </h1>
           <p className="mt-4 text-base leading-relaxed text-charcoal-600 animate-fade-up" style={{ animationDelay: '0.16s' }}>
-            Your RFQ has been received. Our team will review your requirements and
-            contact you regarding availability, specifications and commercial terms.
+            Your enquiry has been recorded. Our team will review your requirements
+            and respond regarding availability, specifications and commercial terms.
           </p>
 
           {product && (
