@@ -1,22 +1,10 @@
 import { ArrowRight } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ABOUT_IMAGE =
   'https://images.pexels.com/photos/20238486/pexels-photo-20238486.jpeg?auto=compress&cs=tinysrgb&h=650&w=940';
 
 export function About() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const scrollTo = (hash: string) => {
-    if (location.pathname !== '/') {
-      navigate(`/${hash}`);
-    } else {
-      const el = document.getElementById(hash.replace('#', ''));
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section id="about" className="scroll-mt-24 bg-white py-20 sm:py-28">
       <div className="container-page">
@@ -55,12 +43,12 @@ export function About() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button type="button" onClick={() => scrollTo('#request-quote')} className="btn-primary">
-                Request a Quote
+              <Link to="/about" className="btn-primary">
+                Learn More
                 <ArrowRight className="h-4 w-4" />
-              </button>
-              <Link to="/suppliers" className="btn-secondary">
-                Become a Supplier
+              </Link>
+              <Link to="/contact" className="btn-secondary">
+                Contact Setu Trade
               </Link>
             </div>
           </div>

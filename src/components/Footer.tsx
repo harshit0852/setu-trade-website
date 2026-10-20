@@ -33,9 +33,9 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" />
-                <button type="button" onClick={() => goHome('#contact')} className="text-brand-200 hover:text-white">
+                <Link to="/contact" className="text-brand-200 hover:text-white">
                   Contact us for enquiries
-                </button>
+                </Link>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" />
@@ -67,10 +67,10 @@ export function Footer() {
               Company
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li><button type="button" onClick={() => goHome('#about')} className="text-brand-200 hover:text-white">About Us</button></li>
-              <li><button type="button" onClick={() => goHome('#target-markets')} className="text-brand-200 hover:text-white">Target Markets</button></li>
-              <li><button type="button" onClick={() => goHome('#why-setu-trade')} className="text-brand-200 hover:text-white">Why Setu Trade</button></li>
-              <li><button type="button" onClick={() => goHome('#export-process')} className="text-brand-200 hover:text-white">Export Process</button></li>
+              <li><Link to="/about" className="text-brand-200 hover:text-white">About Us</Link></li>
+              <li><Link to="/products" className="text-brand-200 hover:text-white">Products</Link></li>
+              <li><Link to="/suppliers" className="text-brand-200 hover:text-white">Suppliers</Link></li>
+              <li><Link to="/contact" className="text-brand-200 hover:text-white">Contact</Link></li>
             </ul>
           </div>
 
@@ -86,12 +86,12 @@ export function Footer() {
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => goHome('#become-supplier')} className="group inline-flex items-center gap-1.5 text-brand-200 hover:text-white">
+                <Link to="/suppliers" className="group inline-flex items-center gap-1.5 text-brand-200 hover:text-white">
                   Become a Supplier
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                </button>
+                </Link>
               </li>
-              <li><button type="button" onClick={() => goHome('#contact')} className="text-brand-200 hover:text-white">Contact</button></li>
+              <li><Link to="/contact" className="text-brand-200 hover:text-white">Contact</Link></li>
             </ul>
           </div>
         </div>

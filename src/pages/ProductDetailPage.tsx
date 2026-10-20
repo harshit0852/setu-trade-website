@@ -285,7 +285,7 @@ function ProductDetailContent({ product }: { product: ProductDetail }) {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
-                  to="/#contact"
+                  to="/contact"
                   className="btn border border-brand-700 bg-brand-900/40 px-5 py-3 text-base text-white hover:bg-brand-800/60"
                 >
                   <FileText className="h-4 w-4" />

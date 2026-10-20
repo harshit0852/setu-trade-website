@@ -214,10 +214,9 @@ export const CATEGORY_SLUGS: ProductCategorySlug[] = PRODUCT_CATEGORIES.map((c) 
 export const NAV_LINKS: NavLink[] = [
   { label: 'Home', href: '#home' },
   { label: 'Products', href: '#products', hasMegaMenu: true },
-  { label: 'Markets', href: '#target-markets' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Why Us', href: '#why-setu-trade' },
-  { label: 'Export Process', href: '#export-process' },
+  { label: 'About', href: '#about', route: '/about' },
+  { label: 'Contact', href: '#contact', route: '/contact' },
+  { label: 'Suppliers', href: '#become-supplier', route: '/suppliers' },
 ];
 
 export const TARGET_MARKETS: MarketRegion[] = [

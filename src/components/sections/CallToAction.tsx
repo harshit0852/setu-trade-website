@@ -48,9 +48,9 @@ function BuyerCTA() {
           Request a Quote
           <ArrowRight className="h-4 w-4" />
         </button>
-        <button type="button" onClick={() => scrollTo('#contact')} className="btn-secondary text-base">
+        <Link to="/contact" className="btn-secondary text-base">
           Contact Us
-        </button>
+        </Link>
       </div>
     </div>
   );

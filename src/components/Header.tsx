@@ -61,6 +61,14 @@ export function Header() {
                 onLeave={() => setMegaOpen(false)}
                 onNavigate={goHome}
               />
+            ) : link.route ? (
+              <Link
+                key={link.href}
+                to={link.route}
+                className="rounded-lg px-3.5 py-2 text-sm font-medium text-charcoal-700 transition-colors hover:bg-brand-50 hover:text-brand-800"
+              >
+                {link.label}
+              </Link>
             ) : (
               <button
                 key={link.href}
@@ -250,6 +258,16 @@ function MobileMenu({
                       ))}
                     </div>
                   )}
+                </li>
+              ) : link.route ? (
+                <li key={link.href} className="border-b border-charcoal-50">
+                  <Link
+                    to={link.route}
+                    onClick={onClose}
+                    className="block w-full py-3.5 text-left text-base font-medium text-charcoal-800"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ) : (
                 <li key={link.href} className="border-b border-charcoal-50">

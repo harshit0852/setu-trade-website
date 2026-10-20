@@ -26,6 +26,8 @@ export interface ProductCategory {
 export interface NavLink {
   label: string;
   href: string;
+  /** Absolute route path for route-based nav links (e.g. "/about") */
+  route?: string;
   /** Renders the Products mega-menu (built from PRODUCT_CATEGORIES) */
   hasMegaMenu?: boolean;
   children?: NavLink[];
